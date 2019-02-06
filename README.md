@@ -1,27 +1,19 @@
 
-The goal of this workshop is to engage in hands-on exploration of docker. Several docker-related concepts and tasks are investigated. The workshop will focus on using docker to build a simple CI server.
+The goal of this workshop is to setup a simple CI server. Furthermore, you will engage in hands-on exploration of docker. Several docker-related concepts and tasks are investigated.
 
 ## Preqs
 
-You will need a computing environment with docker. You can follow the [computing environments workshop](https://github.com/chrisparnin/ComputingEnvironmentsWorkshop) if you have not setup a virtual environment/vagrant yet.
+* You will need a computing environment with docker and nodejs. You can follow the [computing environments workshop](https://github.com/chrisparnin/ComputingEnvironmentsWorkshop) if you have not setup a virtual environment/vagrant yet.
 
 #### Option 1: Using baker
 
-Create a baker.yml file and run `baker bake`
-
-```
-name: docker-build
-vm:
-  ip: 192.168.28.28
-lang: 
-  - nodejs9
-services:
-  - docker
-```
+Clone this repo. Run `baker bake`.
 
 #### Option 2: Manual installation
 
-. The recommended method for installing docker on ubuntu can be [found here](https://docs.docker.com/install/linux/docker-ee/ubuntu/#install-docker-ee-1).  But in the interest of time: :grimacing: :
+Create a virtual machine, then install.
+
+The recommended method for installing docker on ubuntu can be [found here](https://docs.docker.com/install/linux/docker-ee/ubuntu/#install-docker-ee-1).  But in the interest of time: :grimacing: :
 
 ```
 curl -sSL https://get.docker.com/ | sh
@@ -33,10 +25,13 @@ After installation, it is recommended you allow docker to be run without needing
 sudo usermod -aG docker $(whoami)
 ```
 
+#### Hello World
+
 Verify you can run docker:
 ```
 docker run hello-world
 ```
+
 
 ## Concepts
 
@@ -56,7 +51,7 @@ We'll explore some of these concepts below.
 
 Build a docker environment for running build.  Create a "Dockerfile" and place this content inside:
 
-	FROM ubuntu:15.04
+	FROM ubuntu:16.04
 	MAINTAINER Chris Parnin, chris.parnin@ncsu.edu
 
 	RUN apt-get -y update
@@ -66,8 +61,6 @@ Build a docker environment for running build.  Create a "Dockerfile" and place t
 	
 	RUN apt-get -y install git
 	RUN apt-get -y install maven
-	RUN apt-get -y install libblas*
-	RUN ldconfig /usr/local/cuda/lib64
 	
 	ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 
@@ -133,6 +126,7 @@ In your host VM, create 'build.sh' and place the following inside:
 
     git clone https://github.com/CSC-326/JSPDemo
     cd JSPDemo
+    git checkout HEAD~2
     mvn compile -DskipTests -Dmaven.javadoc.skip=true
 
 Execute script
