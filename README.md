@@ -157,10 +157,6 @@ Let's create a simple server to trigger a build server.
 
 #### Simple http server in node
 
-```
-git clone https://github.com/CSC-DevOps/BuildServerApp.git
-```
-
 Extend server.js to run a build when a http request is made.
 
 ```
